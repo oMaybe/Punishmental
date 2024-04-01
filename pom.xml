@@ -11,6 +11,7 @@
     <name>Punishmental</name>
 
     <properties>
+        <jar.finalName>Punishmental</jar.finalName>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -40,8 +41,8 @@
                 </executions>
                 <configuration>
                     <createDependencyReducedPom>false</createDependencyReducedPom>
+                    <finalName>${jar.finalName}</finalName>
                     <shadedArtifactAttached>true</shadedArtifactAttached>
-                    <outputFile>E:\Files\Coding\Java\RUXOR\LocalServer\plugins\Punishmental-${project.version}.jar</outputFile>
                 </configuration>
             </plugin>
         </plugins>
