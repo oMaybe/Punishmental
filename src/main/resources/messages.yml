@@ -1,0 +1,66 @@
+no_perm: "&cYou do not have enough permission to execute this command!"
+not_a_player: "&cYou are not a player!"
+invalid_profile: "&cYou do not have a valid profile!"
+
+# Ban message that will be sent to the player when they are banned
+# %banned_on% - The date when the player was banned
+# %expires% - The date when the ban expires
+# %reason% - The reason for the ban
+# %punisher% - The player who banned the player
+blacklist_message:
+    - "&cYou have been permanently blacklisted from the network!"
+    - ""
+    - "&fBlacklisted on: &c%banned_on%"
+    - "&fBlacklisted by: &c%staff%"
+    - "&fReason: &c%reason%"
+    - ""
+    - "&fAppeal at: https://ruxor.net/discord"
+alt_blacklist_message:
+    - "&cYou have been permanently blacklisted from the network!"
+    - ""
+    - "&fBlacklisted on: &c%banned_on%"
+    - "&fBlacklisted by: &c%staff%"
+    - "&fReason: &c%reason%"
+    - ""
+    - "&fAppeal at: https://ruxor.net/discord"
+
+ban_message:
+  - "&cYour account has been suspended from the network!"
+  - ""
+  - "&fBanned on: &c%banned_on%"
+  - "&fBanned by: &c%staff%"
+  - "&fReason: &c%reason%"
+  - ""
+  - "&fExpires: &c%time%"
+  - "&fAppeal at: https://ruxor.net/discord"
+
+public_blacklist_message: "&c%player% has been blacklisted from the network for %reason% by %staff%!"
+silent_blacklist_message: "&7[Silent] &c%player% has been blacklisted from the network for %reason% by %staff%!"
+
+public_unblacklist_message: "&4%player% &7has been unblacklisted from the network for &4%reason% &7by &4%staff%!"
+silent_unblacklist_message: "&7[Silent] &4%player% &7has been unblacklisted from the network for &4%reason% &7by &4%staff%!"
+
+silent_possible_alt_evasion: "&7[S] &c%player% is possibly evading an alt ban!"
+silent_alt_evasion: "&c%player% has been blacklisted from the network for %reason% by %staff%!"
+
+public_ban_message: "&c%player% has been banned from the network for %time% because of %reason% by %staff%!"
+silent_ban_message: "&7[Silent] &c%player% has been banned for %time% from the network for %reason% by %staff%!"
+
+public_unban_message: "&c%player% &7has been unbanned from the network for &c%reason% &7by &c%staff%!"
+silent_unban_message: "&7[Silent] &c%player% &7has been unbanned from the network for &c%reason% &7by &c%staff%!"
+
+mute_message: "&7You are now muted for &c%time% &7because of &c%reason%!"
+public_mute_message: "&c%player% &7has been muted for &c%time% &7because of &c%reason% &7by &c%staff%!"
+silent_mute_message: "&7[Silent] &c%player% &7has been muted for &c%time% &7because of &c%reason% &7by &c%staff%!"
+
+unmute_message: "&7You have been unmuted for &c%reason% &7by &c%staff%!"
+public_unmute_message: "&c%player% &7has been unmuted for &c%reason% &7by &c%staff%!"
+silent_unmute_message: "&7[Silent] &c%player% &7has been unmuted for &c%reason% &7by &c%staff%!"
+
+warn_message: "&7You have been warned for &c%time% &7because of &c%reason%!"
+silent_warn_message: "&7[Silent] &c%player% &7has been warned for &c%time% &7because of &c%reason% &7by &c%staff%!"
+
+unwarn_message: "&7You have been unwarned for &c%reason%!"
+silent_unwarn_message: "&7[Silent] &c%player% &7has been unwarned for &c%time% &7because of &c%reason% &7by &c%staff%!"
+
+load_message: "&cThe server is still loading, please wait a few seconds before trying again!"

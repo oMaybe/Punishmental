@@ -1,0 +1,29 @@
+#############################################################
+#                                                           #
+#                       Punishmental                        #
+#                                                           #
+#############################################################
+
+# The version below helps to moderate and manage this plugin. This will ease the bug fixing since the exact version will be known
+# The first digit is a major update, second digit signifies minor update and the last digit is used for bug patches.
+version: 1.0.0
+
+mysql:
+  # Enable this if you wish to use mysql database
+  enabled: true
+  # the url is formatted by "jdbc:mysql://<username>:<password>:<host>:<port>/<database>"
+  # please add ?autoReconnect=true to the end of the url to enable auto reconnect. This is important to prevent the plugin from crashing
+  # when the server restarts & prevents database from being locked/disconnecting.
+  url: "jdbc:mysql://u48_gbGnNgDLM1:3QLCgqxu!bTRFG.HtBNwZ!.G@199.127.63.53:3306/s48_testing"
+
+permission:
+    # The permission node to access /punishmental command
+    bypass: "punishmental.bypass"
+    # The permission node to view silent punishes
+    punish_silent: "punishmental.silent"
+
+# These are the commands that are blacklisted from being used in the server when the player is muted.
+blacklisted_commands:
+  - "/msg"
+  - "/tell"
+  - "/whisper"
