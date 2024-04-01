@@ -6,7 +6,7 @@
 
     <groupId>net.ruxor.punishments</groupId>
     <artifactId>Punishmental</artifactId>
-    <version>1.0.0</version> <!-- change this as well as the config.yml -->
+    <version>1.0.3</version> <!-- change this as well as the config.yml -->
     <packaging>jar</packaging>
     <name>Punishmental</name>
 
