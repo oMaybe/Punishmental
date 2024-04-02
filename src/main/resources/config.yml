@@ -6,7 +6,7 @@
 
 # The version below helps to moderate and manage this plugin. This will ease the bug fixing since the exact version will be known
 # The first digit is a major update, second digit signifies minor update and the last digit is used for bug patches.
-version: 1.0.0
+version: 1.0.3
 
 mysql:
   # Enable this if you wish to use mysql database
