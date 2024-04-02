@@ -435,7 +435,7 @@ public class MySQLBackend implements StorageType {
 
     @Override
     public boolean is(String ip, PunishmentType type){
-        CompletableFuture<Object> results = query(QueryType.GET, "SELECT * FROM punishments WHERE ip='" + ip + "' WHERE type='" + type.name() + "';");
+        CompletableFuture<Object> results = query(QueryType.GET, "SELECT * FROM punishments WHERE ip='" + ip + "' AND type='" + type.name() + "';");
 
         AtomicBoolean found = new AtomicBoolean(false);
         try {

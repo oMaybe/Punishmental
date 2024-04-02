@@ -2,6 +2,7 @@ package net.ruxor.punishments.commands;
 
 import net.ruxor.punishments.Punishmental;
 import net.ruxor.punishments.data.Profile;
+import net.ruxor.punishments.util.CC;
 import net.ruxor.punishments.util.Messages;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -33,7 +34,12 @@ public abstract class ConsoleCommand extends Command {
             return true;
         }
 
-        execute(sender, args);
+        try {
+            execute(sender, args);
+        }catch (Exception e) {
+            sender.sendMessage(CC.Red + "Failed to execute the command  " + name + " due to an error.");
+            e.printStackTrace();
+        }
         return true;
     }
 

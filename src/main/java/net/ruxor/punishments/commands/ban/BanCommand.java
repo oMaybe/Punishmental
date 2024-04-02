@@ -91,11 +91,16 @@ public class BanCommand extends ConsoleCommand {
             }
         }
 
+        if (reason == null || reason.isEmpty()) {
+            reason = "No reason specified.";
+        }
+
         // ban Player 30d -s
         //
 
+        String finalReason = reason;
         CompletableFuture.runAsync(() -> {
-            Punishment punishment = new Punishment(UUID.randomUUID(), targetProfile.getPlayerID(), playerName, targetProfile.getLastIP(), PunishmentType.BAN, System.currentTimeMillis(), time, reason, sender.getName());
+            Punishment punishment = new Punishment(UUID.randomUUID(), targetProfile.getPlayerID(), playerName, targetProfile.getLastIP(), PunishmentType.BAN, System.currentTimeMillis(), time, finalReason, sender.getName());
             Punishmental.getInstance().getDatabaseManager().getDatabase().addPunishment(punishment);
 
             // maybe remove if bugs
@@ -104,15 +109,10 @@ public class BanCommand extends ConsoleCommand {
             if (target != null && target.isOnline()) {
                 Tasks.run(Punishmental.getInstance(), () -> {
 
-                    StringBuilder reasonBuilder = new StringBuilder();
-                    for (String s : Messages.BAN_MESSAGE) {
-                        reasonBuilder.append(s).append("\n");
-                    }
-
-                    String newReason = reasonBuilder.toString();
+                    String newReason = Messages.BAN_MESSAGE.stream().collect(Collectors.joining("\n"));
                     target.kickPlayer(newReason
                             .replace("%banned_on%", TimeUtils.when(System.currentTimeMillis()))
-                            .replace("%reason%", reason)
+                            .replace("%reason%", finalReason)
                             .replace("%time%", time == -1L ? "never" : TimeUtils.formatTimeMillis(time))
                             .replace("%staff%", sender.getName()));
                 });
@@ -121,7 +121,7 @@ public class BanCommand extends ConsoleCommand {
             if (!silent) {
                 Bukkit.broadcastMessage(CC.translate(Messages.PUBLIC_BAN_MESSAGE
                         .replace("%player%", playerName)
-                        .replace("%reason%", reason)
+                        .replace("%reason%", finalReason)
                         .replace("%time%", time == -1L ? "ever" : TimeUtils.formatTimeMillis(time))
                         .replace("%staff%", sender.getName())));
                 // maybe add bungee support?
@@ -130,14 +130,14 @@ public class BanCommand extends ConsoleCommand {
                     if (staff.hasPermission((String) FileUtils.getOrDefaultConfig("permission.punish_silent"))){
                         staff.sendMessage(CC.translate(Messages.SILENT_BAN_MESSAGE
                                 .replace("%player%", playerName)
-                                .replace("%reason%", reason)
+                                .replace("%reason%", finalReason)
                                 .replace("%time%", time == -1L ? "ever" : TimeUtils.formatTimeMillis(time))
                                 .replace("%staff%", sender.getName())));
                     }
                 }
             }
 
-            String message = CC.Gray + "You have banned " + CC.Red + playerName + CC.Gray + " for " + CC.Red + (time == -1L ? "ever" : TimeUtils.formatTimeMillis(time)) + CC.Gray + " for " + CC.Red + reason + ".";
+            String message = CC.Gray + "You have banned " + CC.Red + playerName + CC.Gray + " for " + CC.Red + (time == -1L ? "ever" : TimeUtils.formatTimeMillis(time)) + CC.Gray + " for " + CC.Red + finalReason + ".";
             sender.sendMessage(message);
         });
     }

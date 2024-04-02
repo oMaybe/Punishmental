@@ -22,6 +22,9 @@ permission:
     # The permission node to view silent punishes
     punish_silent: "punishmental.silent"
 
+# Blacklist the player if they join with a banned IP
+blacklist_alt: true
+
 # These are the commands that are blacklisted from being used in the server when the player is muted.
 blacklisted_commands:
   - "/msg"

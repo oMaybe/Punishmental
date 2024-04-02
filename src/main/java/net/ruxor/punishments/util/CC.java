@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,7 +61,7 @@ public class CC {
         return ChatColor.translateAlternateColorCodes('&', string);
     }
 
-    public static ArrayList<String> translate(ArrayList<String> strings) {
+    public static ArrayList<String> translate(List<String> strings) {
         ArrayList<String> translated = new ArrayList<>();
         for (String string : strings) {
             translated.add(translate(string));

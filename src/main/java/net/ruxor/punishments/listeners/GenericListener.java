@@ -46,15 +46,8 @@ public class GenericListener implements Listener {
 
         if (profile.isBlacklisted()){
             // check for alts cuz ip ban
-
-            StringBuilder reason = new StringBuilder();
-            for (String s : Messages.BLACKLIST_MESSAGE){
-                reason.append(s).append("\n");
-            }
-
             Punishment punishment = profile.getActiveBlacklist();
-            String newReason = reason.toString();
-
+            String newReason = Messages.BLACKLIST_MESSAGE.stream().collect(Collectors.joining("\n"));
             newReason = newReason.replace("%banned_on%", TimeUtils.when(System.currentTimeMillis()))
                     .replace("%reason%", punishment.getReason())
                     .replace("%staff%", punishment.getStaffName());
@@ -100,14 +93,8 @@ public class GenericListener implements Listener {
         }
 
         if (profile.isBanned()){
-            StringBuilder reason = new StringBuilder();
-            for (String s : Messages.BAN_MESSAGE){
-                reason.append(s).append("\n");
-            }
-
             Punishment punishment = profile.getActiveBan();
-
-            String newReason = reason.toString();
+            String newReason = Messages.BAN_MESSAGE.stream().collect(Collectors.joining("\n"));
             newReason = newReason.replace("%banned_on%", TimeUtils.when(System.currentTimeMillis()))
                     .replace("%reason%", punishment.getReason())
                     .replace("%time%", punishment.getExpiry() == -1L ? "never" : punishment.getFormattedDifference())

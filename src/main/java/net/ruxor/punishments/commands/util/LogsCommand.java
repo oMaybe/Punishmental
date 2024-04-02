@@ -126,27 +126,67 @@ public class LogsCommand extends ConsoleCommand {
         if (punishments.isEmpty()){
             rows = 1;
         }else{
+            // maybe fix this
             rows = (int) Math.ceil(punishments.size() / 9.0);
         }
 
         int numberOfPunishments = punishments.size();
         int punishmentsPerPage = 9;
         int rowsPerPage = 3;
-        int numberOfPages = (int) Math.ceil((double) numberOfPunishments / (double) (punishmentsPerPage * rowsPerPage));
+        int numberOfPages = numberOfPunishments / (punishmentsPerPage * rowsPerPage) + 1;
+
         SGMenu menu = Punishmental.getInstance().getSpiGUI().create("&0" + type.getGuiName()+ " - 1/" + numberOfPages, rows + 1);
+
         menu.setAutomaticPaginationEnabled(true);
         menu.setRowsPerPage(rowsPerPage);
         Material finalPrimary = primary;
 
-        doIt(menu, punishments, 1, finalPrimary, sender);
+        for (int i = 0; i < punishments.size(); i++){
+            Punishment punishment = punishments.get(i);
+            String didOn = TimeUtils.getFormattedGuiTime(punishment.getTimePunished());
+            String reason = punishment.getReason();
+            String staff = punishment.getStaffName();
+            String time = punishment.getExpiry() == -1L ? "permanent" : TimeUtils.formatTimeMillis(punishment.getExpiry());
+            String removeReason = punishment.getRemoveReason();
+            String removeStaff = punishment.getRemoveStaffName();
+            String removeDate = TimeUtils.getFormattedGuiTime(punishment.getRemoveTime());
+            String id = String.valueOf(punishment.getPunishID());
+            String active = punishment.isActive() ? "&aActive" : "&cExpired";
+
+            ArrayList<String> lore = new ArrayList<>();
+            lore.add(punishment.getSeperator());
+            lore.add("&eID: &c" + id);
+            lore.add("&eActive: " + active);
+            lore.add("&eBy: &c" + staff);
+            lore.add("&eReason: &c" + reason);
+            lore.add("&eTime: &c" + time);
+            // todo: lore.add("&eServer: &c" + punishment.getServer());
+
+            if (punishment.isRemoved()){
+                lore.add("&eRemoved By: &c" + removeStaff);
+                lore.add("&eRemove Reason: &c" + removeReason);
+                lore.add("&eRemove Date: &c" + removeDate);
+                lore.add(punishment.getSeperator());
+            }else{
+                lore.add(punishment.getSeperator());
+            }
+
+            menu.setButton(i, new SGButton(new ItemBuilder(finalPrimary).name("&c" + didOn).lore(lore).get()).withListener((listener) -> {
+                // I dont think it do anything if click BUT maybe copy ID to clipboard?
+                TextComponent message = new TextComponent(CC.Gray + "Punishment ID: " + CC.Red + id);
+                message.setClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, id));
+                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text("Click this to copy the punishment id.")));
+                sender.spigot().sendMessage(message);
+            }));
+        }
+        /*doIt(menu, punishments, 1, finalPrimary, sender);
 
         menu.setOnPageChange(inventory -> {
             int page = inventory.getCurrentPage();
             inventory.setName("&0" + type.getGuiName() + " - " + page + "/" + numberOfPages);
-            menu.refreshInventory(sender);
-
             doIt(menu, punishments, page, finalPrimary, sender);
-        });
+            menu.refreshInventory(sender);
+        });*/
 
         sender.openInventory(menu.getInventory());
     }
@@ -154,7 +194,7 @@ public class LogsCommand extends ConsoleCommand {
     public void doIt(SGMenu menu, List<Punishment> punishments, int page, Material finalPrimary, Player sender){
         int rows;
         if (punishments.isEmpty()){
-            rows = 0;
+            rows = 1;
         }else{
             rows = (int) Math.ceil(punishments.size() / 9.0);
         }
@@ -170,6 +210,7 @@ public class LogsCommand extends ConsoleCommand {
             punishmentsThisPage.add(punishments.get(i));
         }
 
+        // change max so that we can fit a toolbar at the top lol
         for (int i = 0; i < punishmentsThisPage.size(); i++){
             Punishment punishment = punishmentsThisPage.get(i);
             String didOn = TimeUtils.getFormattedGuiTime(punishment.getTimePunished());
