@@ -3,6 +3,7 @@ package net.ruxor.punishments.listeners;
 import net.ruxor.punishments.Punishmental;
 import net.ruxor.punishments.data.Profile;
 import net.ruxor.punishments.punishment.Punishment;
+import net.ruxor.punishments.util.CC;
 import net.ruxor.punishments.util.FileUtils;
 import net.ruxor.punishments.util.Messages;
 import org.bukkit.Bukkit;
@@ -24,6 +25,16 @@ public class ChatListener implements Listener {
         // do something
         Player player = event.getPlayer();
         Optional<Profile> profile = Punishmental.getInstance().getProfileHandler().getProfile(player.getUniqueId());
+        if (Punishmental.getInstance().getServerManager().isChatMuted()){
+            if (player.hasPermission("punishments.chat.bypass")){
+                return;
+            }
+
+            event.setCancelled(true);
+            player.sendMessage(CC.Red + "The chat is currently muted and you cannot send any messages!");
+            return;
+        }
+
         if (!profile.isPresent()) {
             Bukkit.getLogger().severe("Could not find a profile for " + player.getName() + " (" + player.getUniqueId() + ")");
             return;

@@ -80,12 +80,17 @@ public class WarnCommand extends ConsoleCommand {
             }
         }
 
+        if (reason == null || reason.isEmpty()){
+            reason = "No reason specified.";
+        }
+
         // ban Player 30d -s
         //
 
         long finalTime = time;
+        String finalReason = reason;
         CompletableFuture.runAsync(() -> {
-            Punishment punishment = new Punishment(UUID.randomUUID(), targetProfile.getPlayerID(), playerName, targetProfile.getLastIP(), PunishmentType.WARN, System.currentTimeMillis(), finalTime, reason, sender.getName());
+            Punishment punishment = new Punishment(UUID.randomUUID(), targetProfile.getPlayerID(), playerName, targetProfile.getLastIP(), PunishmentType.WARN, System.currentTimeMillis(), finalTime, finalReason, sender.getName());
             Punishmental.getInstance().getDatabaseManager().getDatabase().addPunishment(punishment);
 
             // maybe remove if bugs
@@ -95,7 +100,7 @@ public class WarnCommand extends ConsoleCommand {
                 Tasks.run(Punishmental.getInstance(), () -> {
 
                     target.sendMessage(Messages.WARN_MESSAGE
-                            .replace("%reason%", reason)
+                            .replace("%reason%", finalReason)
                             .replace("%time%", finalTime == -1L ? "never" : TimeUtils.formatTimeMillis(finalTime)));
                 });
             }else{
@@ -106,13 +111,13 @@ public class WarnCommand extends ConsoleCommand {
                 if (staff.hasPermission((String) FileUtils.getOrDefaultConfig("permission.punish_silent"))){
                     staff.sendMessage(CC.translate(Messages.SILENT_WARN_MESSAGE
                             .replace("%player%", playerName)
-                            .replace("%reason%", reason)
+                            .replace("%reason%", finalReason)
                             .replace("%time%", finalTime == -1L ? "ever" : TimeUtils.formatTimeMillis(finalTime))
                             .replace("%staff%", sender.getName())));
                 }
             }
 
-            String message = CC.Gray + "You have warned " + CC.Red + playerName + CC.Gray + " for " + CC.Red + (finalTime == -1L ? "ever" : TimeUtils.formatTimeMillis(finalTime)) + CC.Gray + " for " + CC.Red + reason + ".";
+            String message = CC.Gray + "You have warned " + CC.Red + playerName + CC.Gray + " for " + CC.Red + (finalTime == -1L ? "ever" : TimeUtils.formatTimeMillis(finalTime)) + CC.Gray + " for " + CC.Red + finalReason + ".";
             sender.sendMessage(message);
         });
     }

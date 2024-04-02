@@ -9,7 +9,9 @@ import net.ruxor.punishments.commands.misc.PunishmentalCommand;
 import net.ruxor.punishments.commands.mutes.MuteCommand;
 import net.ruxor.punishments.commands.mutes.UnmuteCommand;
 import net.ruxor.punishments.commands.util.AltsCommand;
+import net.ruxor.punishments.commands.util.LockdownCommand;
 import net.ruxor.punishments.commands.util.LogsCommand;
+import net.ruxor.punishments.commands.util.MuteChatCommand;
 import net.ruxor.punishments.commands.warns.UnwarnCommand;
 import net.ruxor.punishments.commands.warns.WarnCommand;
 import net.ruxor.punishments.data.ProfileHandler;
@@ -18,6 +20,7 @@ import net.ruxor.punishments.database.FileConfig;
 import net.ruxor.punishments.listeners.ChatListener;
 import net.ruxor.punishments.listeners.GenericListener;
 import net.ruxor.punishments.profiler.NewProfiler;
+import net.ruxor.punishments.server.ServerManager;
 import net.ruxor.punishments.util.CustomLogger;
 import net.ruxor.punishments.util.Tasks;
 import net.ruxor.punishments.util.spigui.SpiGUI;
@@ -45,6 +48,7 @@ public final class Punishmental extends JavaPlugin {
 
     @Getter private ProfileHandler profileHandler;
     @Getter private DatabaseManager databaseManager;
+    @Getter private ServerManager serverManager;
 
     @Getter private FileConfig mainConfig;
     @Getter private FileConfig messages;
@@ -66,7 +70,9 @@ public final class Punishmental extends JavaPlugin {
         registerCommands();
         registerEvents();
 
+
         databaseManager = new DatabaseManager();
+        serverManager = new ServerManager();
         profileHandler = new ProfileHandler();
 
         Tasks.runLater(this, () -> {
@@ -136,6 +142,8 @@ public final class Punishmental extends JavaPlugin {
                 new UnwarnCommand(),
 
                 new PunishmentalCommand(),
+                new MuteChatCommand(),
+                new LockdownCommand(),
                 new LogsCommand(),
                 new AltsCommand()
         );

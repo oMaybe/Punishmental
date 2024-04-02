@@ -88,4 +88,9 @@ public class MongoBackend implements StorageType {
     public boolean is(String ip, PunishmentType type) {
         return false;
     }
+
+    @Override
+    public void removeFromHistory(UUID punishmentID) {
+
+    }
 }

@@ -88,8 +88,13 @@ public class MuteCommand extends ConsoleCommand {
             }
         }
 
+        if (reason == null || reason.isEmpty()){
+            reason = "No reason specified.";
+        }
+
+        String finalReason = reason;
         CompletableFuture.runAsync(() -> {
-            Punishment punishment = new Punishment(UUID.randomUUID(), targetProfile.getPlayerID(), playerName, targetProfile.getLastIP(), PunishmentType.MUTE, System.currentTimeMillis(), time, reason, sender.getName());
+            Punishment punishment = new Punishment(UUID.randomUUID(), targetProfile.getPlayerID(), playerName, targetProfile.getLastIP(), PunishmentType.MUTE, System.currentTimeMillis(), time, finalReason, sender.getName());
             Punishmental.getInstance().getDatabaseManager().getDatabase().addPunishment(punishment);
 
             targetProfile.load();
@@ -98,7 +103,7 @@ public class MuteCommand extends ConsoleCommand {
                 String message = Messages.MUTE_MESSAGE;
 
                 message = message.replace("%player%", target.getName())
-                        .replace("%reason%", reason)
+                        .replace("%reason%", finalReason)
                         .replace("%time%", TimeUtils.formatTimeMillis(time));
 
                 target.sendMessage(message);
@@ -107,7 +112,7 @@ public class MuteCommand extends ConsoleCommand {
             if (!silent) {
                 Bukkit.broadcastMessage(CC.translate(Messages.PUBLIC_MUTE_MESSAGE
                         .replace("%player%", playerName)
-                        .replace("%reason%", reason)
+                        .replace("%reason%", finalReason)
                         .replace("%time%", time == -1L ? "ever" : TimeUtils.formatTimeMillis(time))
                         .replace("%staff%", sender.getName())));
                 // maybe add bungee support?
@@ -116,7 +121,7 @@ public class MuteCommand extends ConsoleCommand {
                     if (staff.hasPermission((String) FileUtils.getOrDefaultConfig("permission.punish_silent"))){
                         staff.sendMessage(CC.translate(Messages.SILENT_MUTE_MESSAGE
                                 .replace("%player%", playerName)
-                                .replace("%reason%", reason)
+                                .replace("%reason%", finalReason)
                                 .replace("%time%", time == -1L ? "ever" : TimeUtils.formatTimeMillis(time))
                                 .replace("%staff%", sender.getName())));
                     }

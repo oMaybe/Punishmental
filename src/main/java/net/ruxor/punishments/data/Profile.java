@@ -46,10 +46,11 @@ public class Profile {
                 punishment.setRemoveReason("Expired");
                 punishment.setExpiry(System.currentTimeMillis());
                 history.add(punishment);
-                punishments.remove(punishment);
 
-                // update the punishment in the database
                 Punishmental.getInstance().getDatabaseManager().getDatabase().removePunishment(punishment.getPunishID());
+
+                punishments.remove(punishment);
+                // update the punishment in the database
             }
         }
 

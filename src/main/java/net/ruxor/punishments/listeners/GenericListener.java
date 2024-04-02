@@ -17,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.UUID;
@@ -108,5 +109,14 @@ public class GenericListener implements Listener {
     @EventHandler
     public void onLeave(PlayerQuitEvent event){
         Punishmental.getInstance().getProfileHandler().remove(event.getPlayer().getUniqueId());
+    }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent event){
+        if (Punishmental.getInstance().getServerManager().isLocked()){
+            if (!event.getPlayer().hasPermission("punishmental.lockdown.bypass")){
+                event.getPlayer().kickPlayer(CC.translate("&cThe server is currently in lockdown."));
+            }
+        }
     }
 }

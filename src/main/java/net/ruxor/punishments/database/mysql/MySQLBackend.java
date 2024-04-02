@@ -161,6 +161,26 @@ public class MySQLBackend implements StorageType {
     }
 
     @Override
+    public void removeFromHistory(UUID punishmentID){
+        CompletableFuture<?> alb = query(QueryType.POST, "DELETE FROM history WHERE punishid='" + punishmentID.toString() + "';");
+
+        try {
+            alb.thenAccept(result -> {
+                if (result == null) {
+                    Bukkit.getLogger().info("MYSQL - Successfully removed punishment from history.");
+                } else {
+                    Bukkit.getLogger().info("MYSQL - Failed to removed punishment from history id=" + punishmentID);
+                }
+            }).exceptionally(ex -> {
+                Bukkit.getLogger().severe("MYSQL - An error occurred: " + ex.getMessage());
+                return null;
+            }).get();
+        }catch (Exception e){
+            Bukkit.getLogger().severe("Failed to remove punishment from history: " + e.getMessage());
+        }
+    }
+
+    @Override
     public void addToHistory(Punishment punishment) {
         if (getPunishment(punishment.getPunishID()) != null) {
             removePunishment(punishment.getPunishID());

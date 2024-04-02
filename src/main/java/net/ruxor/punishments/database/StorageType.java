@@ -37,4 +37,6 @@ public interface StorageType {
     void insertIP(UUID playerID, String ipAddress);
 
     boolean is(String ip, PunishmentType type);
+
+    void removeFromHistory(UUID punishmentID);
 }
