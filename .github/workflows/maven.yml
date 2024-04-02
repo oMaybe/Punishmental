@@ -45,11 +45,9 @@ jobs:
           cd ~/buildtools
           wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
           java -jar BuildTools.jar --rev 1.20.4
-
       - name: Build With Maven
-      - run: mvn -e clean package -am -P all
-      - run: mkdir staging && cp target/*.jar staging
-      - uses: actions/upload-artifact@v4
+        run: mvn -e clean package -am -P all && mkdir staging && cp target/*.jar staging
+        uses: actions/upload-artifact@v4
         with:
           name: Package
           path: staging
